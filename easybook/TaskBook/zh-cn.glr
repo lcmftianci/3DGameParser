@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<glossary lang="2052">
+  <entry id="app.product_name">Task Book</entry>
+
+  <entry id="enum.taskimportance.memo">备忘</entry>
+  <entry id="enum.taskimportance.normal">一般</entry>
+  <entry id="enum.taskimportance.important">重要</entry>
+  <entry id="enum.taskimportance.extremely">非常重要</entry>
+
+</glossary>

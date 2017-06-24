@@ -96,7 +96,7 @@ void Game_Run()
 		int x = rand() % (rect.right - rect.left);
 		int y = rand() % (rect.bottom - rect.top);
 		char * str = const_cast<char*>(strFilePath.c_str());
-		DrawBitmap(str, x, y);
+		DrawBitmap(str, 0, 0);
 }
 
 //game end

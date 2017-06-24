@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B078185C-A1E3-4498-AB4F-8EE8101B13AE}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TaskBook</RootNamespace>
+    <AssemblyName>TaskBook</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>LOGO.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Helpers.cs" />
+    <Compile Include="UI\HotKeyType.cs" />
+    <Compile Include="Localization\Glossary.cs" />
+    <Compile Include="Localization\LocaleInfo.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StickyNote.cs" />
+    <Compile Include="Task.cs" />
+    <Compile Include="TaskEventArgs.cs" />
+    <Compile Include="TaskImportance.cs" />
+    <Compile Include="UI\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\GlobalHook.cs" />
+    <Compile Include="UI\HotKey.cs" />
+    <Compile Include="UI\HotKeyTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\KeyboardHook.cs" />
+    <Compile Include="UI\NativeMethods.cs" />
+    <Compile Include="UI\OptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\OptionsForm.Designer.cs">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\RemindingTimeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\RemindingTimeForm.Designer.cs">
+      <DependentUpon>RemindingTimeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\StickyNoteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\StickyNoteForm.Designer.cs">
+      <DependentUpon>StickyNoteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\NCPaintForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\NCPaintForm.Designer.cs">
+      <DependentUpon>NCPaintForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TaskListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\TaskListForm.Designer.cs">
+      <DependentUpon>TaskListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TaskListViewItem.cs" />
+    <Compile Include="UI\ToolButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserContext.cs" />
+    <Compile Include="UserOptions.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="UI\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\OptionsForm.resx">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\RemindingTimeForm.resx">
+      <DependentUpon>RemindingTimeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\StickyNoteForm.resx">
+      <DependentUpon>StickyNoteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\NCPaintForm.resx">
+      <DependentUpon>NCPaintForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\TaskListForm.resx">
+      <DependentUpon>TaskListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="zh-cn.glr">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Font_underline.png" />
+    <None Include="Resources\saveHS.png" />
+    <None Include="Resources\ItalicHS.png" />
+    <None Include="Resources\Forecolor.png" />
+    <None Include="Resources\DeleteHS.png" />
+    <None Include="Resources\CutHS.png" />
+    <None Include="Resources\CopyHS.png" />
+    <None Include="Resources\Color_fontHS.png" />
+    <None Include="Resources\boldhs.png" />
+    <None Include="Resources\plus.png" />
+    <None Include="Resources\pin.png" />
+    <None Include="Resources\importance_extremely.png" />
+    <None Include="Resources\importance_important.png" />
+    <None Include="Resources\importance_memo.png" />
+    <None Include="Resources\importance_normal.png" />
+    <None Include="Resources\FontDialogHS.png" />
+    <None Include="Resources\Expand.png" />
+    <None Include="Resources\finish.png" />
+    <Content Include="LOGO.ico" />
+    <Content Include="Resources\DefaultGlossary.xml" />
+    <Content Include="Resources\NewTask.png" />
+    <None Include="Resources\Properties.png" />
+    <None Include="Resources\PasteHS.png" />
+    <None Include="Resources\pin_gray.png" />
+    <Content Include="Resources\Reminder.png" />
+    <None Include="Resources\Reminder_gray.png" />
+    <None Include="Resources\task_finished.png" />
+    <None Include="Resources\task_memo.png" />
+    <None Include="Resources\task_unfinished.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

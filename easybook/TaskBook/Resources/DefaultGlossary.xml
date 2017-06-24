@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<glossary lang="en-US">
+  <entry id="app.product_name">Task Book</entry>
+
+  <entry id="enum.taskimportance.memo">Memo</entry>
+  <entry id="enum.taskimportance.normal">Normal</entry>
+  <entry id="enum.taskimportance.important">Important</entry>
+  <entry id="enum.taskimportance.extremely">Extremely</entry>
+</glossary>

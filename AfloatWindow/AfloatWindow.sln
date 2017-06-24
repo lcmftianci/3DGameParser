@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AfloatWindow", "AfloatWindow\AfloatWindow.vcxproj", "{ABCEBBFD-D619-4BFC-99CF-2DBF54E6F20E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AfoatWindow-Message", "AfoatWindow-Message\AfoatWindow-Message.vcxproj", "{71960746-11F8-4FBE-9A90-CF94FDA84715}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ABCEBBFD-D619-4BFC-99CF-2DBF54E6F20E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ABCEBBFD-D619-4BFC-99CF-2DBF54E6F20E}.Debug|Win32.Build.0 = Debug|Win32
+		{ABCEBBFD-D619-4BFC-99CF-2DBF54E6F20E}.Release|Win32.ActiveCfg = Release|Win32
+		{ABCEBBFD-D619-4BFC-99CF-2DBF54E6F20E}.Release|Win32.Build.0 = Release|Win32
+		{71960746-11F8-4FBE-9A90-CF94FDA84715}.Debug|Win32.ActiveCfg = Debug|Win32
+		{71960746-11F8-4FBE-9A90-CF94FDA84715}.Debug|Win32.Build.0 = Debug|Win32
+		{71960746-11F8-4FBE-9A90-CF94FDA84715}.Release|Win32.ActiveCfg = Release|Win32
+		{71960746-11F8-4FBE-9A90-CF94FDA84715}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
