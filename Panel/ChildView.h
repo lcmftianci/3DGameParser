@@ -5,6 +5,8 @@
 
 #pragma once
 #include <iostream>
+#include <vector>
+#include <map>
 
 
 // CChildView window
@@ -38,11 +40,23 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
+	struct ColorStruct
+	{
+		COLORREF myColor;
+		std::vector<CPoint> arrPoint;
+	};
 	CPoint m_OldPoint;
 	CPoint m_Point;
 	BOOL m_bDraw;
 	COLORREF m_Color;
 	std::string m_strFilePath;
+	std::vector<CPoint> m_arrPoint;		//存储绘制的曲线段
+	std::map<int, std::vector<CPoint>> m_mapArrPoint;		//绘制整个画面的曲线 ,处理曲线连接处理
+
+	std::map<int, std::map<COLORREF, std::vector<CPoint>>> m_mapColorArrPoint;   //处理绘制曲线颜色不同问题
+	std::map<int, ColorStruct> m_mapStruColorPoint;		//处理绘制曲线颜色不同问题
+
+	int m_nNum; //划线的次数
 public:
 	afx_msg void OnToolsColor();
 	afx_msg void OnToolsSize();

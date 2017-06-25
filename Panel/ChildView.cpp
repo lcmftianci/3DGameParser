@@ -20,6 +20,7 @@ using namespace Gdiplus;
 CChildView::CChildView()
 {
 	m_strFilePath = "";
+	m_nNum = 0;
 }
 
 CChildView::~CChildView()
@@ -57,10 +58,55 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 
 void CChildView::OnPaint() 
 {
-	CPaintDC dc(this); // device context for painting
-	
+	//CPaintDC dc(this); // device context for painting
+	CClientDC dc(this);
 	// TODO: Add your message handler code here
-	
+	/*CPanelDoc* pDc = GetDocument();*/
+
+	///*处理移动窗口曲线消失*/
+	//CPen pen(PS_SOLID, 3, m_Color);
+	//CPen *OldPen = dc.SelectObject(&pen);
+	//CPoint OldPoint;
+	///*处理多次划线，曲线连接*/
+	//std::map<int, std::vector<CPoint>>::iterator iterPos = m_mapArrPoint.begin();
+	//for (; iterPos != m_mapArrPoint.end(); iterPos++)
+	//{
+	//	std::vector<CPoint>::iterator iterInnerPos = iterPos->second.begin();
+	//	for (int i = 0; iterInnerPos != iterPos->second.end(); iterInnerPos++, i++)
+	//	{
+	//		if (i == 0)
+	//			OldPoint = *iterInnerPos;
+	//		dc.MoveTo(OldPoint);
+	//		dc.LineTo(*iterInnerPos);
+	//		OldPoint = *iterInnerPos;
+	//	}
+	//}
+	//dc.SelectObject(OldPen);
+
+	/*处理多次划线，曲线连接*/
+	std::map<int, std::map<COLORREF, std::vector<CPoint>>>::iterator iterPos = m_mapColorArrPoint.begin();
+	for (; iterPos != m_mapColorArrPoint.end(); iterPos++)
+	{
+		std::map<COLORREF, std::vector<CPoint>>::iterator iterColor = iterPos->second.begin();
+		for (; iterColor != iterPos->second.end(); iterColor++)
+		{
+			/*进阶处理每次绘制画笔颜色不同的问题*/
+			CPen pen(PS_SOLID, 3, iterColor->first);
+			CPen *OldPen = dc.SelectObject(&pen);
+			CPoint OldPoint;
+			std::vector<CPoint>::iterator iterInnerPos = iterColor->second.begin();
+			for (int i = 0; iterInnerPos != iterColor->second.end(); iterInnerPos++, i++)
+			{
+				if (i == 0)
+					OldPoint = *iterInnerPos;
+				dc.MoveTo(OldPoint);
+				dc.LineTo(*iterInnerPos);
+				OldPoint = *iterInnerPos;
+			}
+			dc.SelectObject(OldPen);
+		}
+
+	}
 	// Do not call CWnd::OnPaint() for painting messages
 }
 
@@ -69,15 +115,21 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 	m_OldPoint = point;
 	m_Point = point;
 	m_bDraw = TRUE;
+	m_arrPoint.clear();
 }
 
 void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	m_bDraw = FALSE;
+	//m_mapArrPoint[m_nNum] = m_arrPoint;
+	m_mapColorArrPoint[m_nNum][m_Color] = m_arrPoint;
+	m_nNum++;
 }
 
 void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 {
+	/*HDC hdc;
+	hdc = ::GetDC(m_hWnd);*/
 	CClientDC dc(this);
 	if (m_Color == NULL)
 	{
@@ -90,12 +142,28 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 		dc.MoveTo(m_OldPoint);
 		dc.LineTo(point);
 		m_OldPoint = point;
+		m_arrPoint.push_back(point);
 	}
 	dc.SelectObject(OldPen);
+
+	//CDC * dc = CWnd::GetDC();
+	//if (m_Color == NULL)
+	//{
+	//	m_Color = RGB(255, 0, 23);
+	//}
+	//CPen pen(PS_SOLID, 3, m_Color);
+	//CPen *OldPen = dc->SelectObject(&pen);
+	//if (m_bDraw == TRUE)
+	//{
+	//	dc->MoveTo(m_OldPoint);
+	//	dc->LineTo(point);
+	//	m_OldPoint = point;
+	//}
+	//dc->SelectObject(OldPen);
 }
 
 
-
+/*选择画笔颜色*/
 void CChildView::OnToolsColor()
 {
 	// TODO: Add your command handler code here
@@ -680,9 +748,7 @@ BOOL SaveBitmap(BYTE *pBuffer, long lBufferLen)
 /*
 第三个帖子
 方法一：将内存设备描述表copy到位图中获取位图句柄
-
 HDC hScrDC,hMemDC;//屏幕和内存设备描述表
-
 HBITMAP hBitmap,hOldBitmap;//位图句柄
 if(IsRectEmpty(rect)) return NULL;
 //为屏幕创建设备描述表
@@ -722,9 +788,6 @@ tdc.SelectObject(pOld);
 第二步是将HBITMAP保存为BMP文件，看一下这个：参考
 
 方法三：用gdi+
-
-
-
 CDC *pDC = GetWindowDC();
 
 CDC  memDC;
@@ -749,8 +812,6 @@ image.Attach((HBITMAP)Bmp.m_hObject);
 
 image.Save(L"c:\\1.bmp");
 */
-
-
 	return 0;
 }
 
@@ -766,7 +827,7 @@ void CChildView::OnFileSaveview()
 
 	//CDC *pDC = GetWindowDC();
 	/*CClientDC dc(this);*/
-	CDC *pDC = GetDC();
+	CDC *pDC = CWnd::GetDC();
 	if (pDC->IsPrinting())
 	{
 		long width = 0, height = 0;
