@@ -19,8 +19,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConvertScene", "..\..\Progr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExportDocument", "..\..\Program Files\Autodesk\FBX\FBX SDK\2018.1.1\samples\ExportDocument\ExportDocument_net2015.vcxproj", "{A7903894-EC97-4FC6-8A09-09AD686F2CD1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExportScene01", "..\..\Program Files\Autodesk\FBX\FBX SDK\2018.1.1\samples\ExportScene01\ExportScene01_net2015.vcxproj", "{B1B0F007-787E-48F6-BB1E-E925F5294E04}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExportScene02", "..\..\Program Files\Autodesk\FBX\FBX SDK\2018.1.1\samples\ExportScene02\ExportScene02_net2015.vcxproj", "{335FAFAD-F2C6-4B8E-8E36-548E5186CFC2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExportScene03", "..\..\Program Files\Autodesk\FBX\FBX SDK\2018.1.1\samples\ExportScene03\ExportScene03_net2015.vcxproj", "{C81742C2-8F3A-467E-8C07-73E4C53AC987}"
@@ -77,7 +75,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Panel", "Panel\Panel.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FindStringInFile", "FindStringInFile\FindStringInFile.vcxproj", "{11E5B40F-55FD-4C81-A8CF-C379623048F0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dlg", "..\dlg\dlg\dlg.vcxproj", "{381D8349-8369-4D1B-8DAC-317C3456F254}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dlg", "dlg\dlg\dlg.vcxproj", "{381D8349-8369-4D1B-8DAC-317C3456F254}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExportScene01", "..\..\Program Files\Autodesk\FBX\FBX SDK\2018.1.1\samples\ExportScene01\ExportScene01_net2015.vcxproj", "{B1B0F007-787E-48F6-BB1E-E925F5294E04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -219,22 +219,6 @@ Global
 		{A7903894-EC97-4FC6-8A09-09AD686F2CD1}.Release|x64.Build.0 = Release|x64
 		{A7903894-EC97-4FC6-8A09-09AD686F2CD1}.Release|x86.ActiveCfg = Release|Win32
 		{A7903894-EC97-4FC6-8A09-09AD686F2CD1}.Release|x86.Build.0 = Release|Win32
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug (DLL)|x64.ActiveCfg = Debug (DLL)|x64
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug (DLL)|x64.Build.0 = Debug (DLL)|x64
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug (DLL)|x86.ActiveCfg = Debug (DLL)|Win32
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug (DLL)|x86.Build.0 = Debug (DLL)|Win32
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug|x64.ActiveCfg = Debug|x64
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug|x64.Build.0 = Debug|x64
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug|x86.ActiveCfg = Debug|Win32
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug|x86.Build.0 = Debug|Win32
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release (DLL)|x64.ActiveCfg = Release (DLL)|x64
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release (DLL)|x64.Build.0 = Release (DLL)|x64
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release (DLL)|x86.ActiveCfg = Release (DLL)|Win32
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release (DLL)|x86.Build.0 = Release (DLL)|Win32
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release|x64.ActiveCfg = Release|x64
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release|x64.Build.0 = Release|x64
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release|x86.ActiveCfg = Release|Win32
-		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release|x86.Build.0 = Release|Win32
 		{335FAFAD-F2C6-4B8E-8E36-548E5186CFC2}.Debug (DLL)|x64.ActiveCfg = Debug (DLL)|x64
 		{335FAFAD-F2C6-4B8E-8E36-548E5186CFC2}.Debug (DLL)|x64.Build.0 = Debug (DLL)|x64
 		{335FAFAD-F2C6-4B8E-8E36-548E5186CFC2}.Debug (DLL)|x86.ActiveCfg = Debug (DLL)|Win32
@@ -695,6 +679,22 @@ Global
 		{381D8349-8369-4D1B-8DAC-317C3456F254}.Release|x64.Build.0 = Release|x64
 		{381D8349-8369-4D1B-8DAC-317C3456F254}.Release|x86.ActiveCfg = Release|Win32
 		{381D8349-8369-4D1B-8DAC-317C3456F254}.Release|x86.Build.0 = Release|Win32
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug (DLL)|x64.ActiveCfg = Debug (DLL)|x64
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug (DLL)|x64.Build.0 = Debug (DLL)|x64
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug (DLL)|x86.ActiveCfg = Debug (DLL)|Win32
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug (DLL)|x86.Build.0 = Debug (DLL)|Win32
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug|x64.ActiveCfg = Debug|x64
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug|x64.Build.0 = Debug|x64
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug|x86.ActiveCfg = Debug|Win32
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Debug|x86.Build.0 = Debug|Win32
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release (DLL)|x64.ActiveCfg = Release (DLL)|x64
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release (DLL)|x64.Build.0 = Release (DLL)|x64
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release (DLL)|x86.ActiveCfg = Release (DLL)|Win32
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release (DLL)|x86.Build.0 = Release (DLL)|Win32
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release|x64.ActiveCfg = Release|x64
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release|x64.Build.0 = Release|x64
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release|x86.ActiveCfg = Release|Win32
+		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
