@@ -160,7 +160,8 @@ BEGIN
     POPUP "&File"
     BEGIN
         MENUITEM "E&xit",                       ID_APP_EXIT
-        MENUITEM "Save",                        ID_FILE_SAVE32773
+        MENUITEM "SaveWnd",                     ID_FILE_SAVEWND
+        MENUITEM "SaveView",                    ID_FILE_SAVEVIEW
     END
     POPUP "&Edit"
     BEGIN

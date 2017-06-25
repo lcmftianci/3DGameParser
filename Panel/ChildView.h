@@ -46,6 +46,7 @@ private:
 public:
 	afx_msg void OnToolsColor();
 	afx_msg void OnToolsSize();
-	afx_msg void OnFileSave32773();
+	afx_msg void OnFileSaveWnd();
+	afx_msg void OnFileSaveview();
 };
 
