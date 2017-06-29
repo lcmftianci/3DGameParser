@@ -19,7 +19,8 @@
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
 
-
+//¶¨Ê±Æ÷
+#define TIMER_MOVE 49999  
 #include <afxdisp.h>        // MFC Automation classes
 
 #define WM_SHOWTASK (WM_USER +1) //user msg

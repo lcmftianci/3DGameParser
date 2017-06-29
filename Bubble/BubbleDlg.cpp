@@ -65,91 +65,299 @@ void CBubbleDlg::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	//MessageBox(_T("CHN"), _T("CHN"), MB_OK);
 	CDialogEx::OnLButtonDown(nFlags, point);
+	//将消息传给NCLButtondown实现拖动
+	PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
 }
 
-void CBubbleDlg::OnNcLButtonDown(UINT nHitTest, CPoint point)
+//void CBubbleDlg::OnNcLButtonDown(UINT nHitTest, CPoint point)
+//{
+//	// TODO: 在此添加消息处理程序代码和/或调用默认值
+//	switch (nHitTest)
+//	{	// nHitTest==HTCAPTION 不用判断直接调用缺省即可
+//	case HTTOP:
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+//		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_TOP, MAKELPARAM(point.x, point.y));
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+//		Invalidate(TRUE);
+//		//m_explorer.Invalidate(TRUE);
+//		break;
+//	case HTBOTTOM:
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+//		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_BOTTOM, MAKELPARAM(point.x, point.y));
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+//		Invalidate(TRUE);
+//		break;
+//	case HTLEFT:
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+//		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_LEFT, MAKELPARAM(point.x, point.y));
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+//		Invalidate(TRUE);
+//		break;
+//	case HTRIGHT:
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+//		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_RIGHT, MAKELPARAM(point.x, point.y));
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+//		Invalidate(TRUE);
+//		break;
+//	case HTTOPLEFT:
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+//		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_TOPLEFT, MAKELPARAM(point.x, point.y));
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+//		Invalidate(TRUE);
+//		break;
+//	case HTTOPRIGHT:
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+//		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_TOPRIGHT, MAKELPARAM(point.x, point.y));
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+//		Invalidate(TRUE);
+//		break;
+//	case HTBOTTOMLEFT:
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+//		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_BOTTOMLEFT, MAKELPARAM(point.x, point.y));
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+//		Invalidate(TRUE);
+//		break;
+//	case HTBOTTOMRIGHT:
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+//		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_BOTTOMRIGHT, MAKELPARAM(point.x, point.y));
+//		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+//		Invalidate(TRUE);
+//		break;
+//	}
+//}
+
+/*是否靠近屏幕左边缘*/
+BOOL CBubbleDlg::NearLeftBorder()
 {
-	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	switch (nHitTest)
-	{	// nHitTest==HTCAPTION 不用判断直接调用缺省即可
-	case HTTOP:
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
-		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_TOP, MAKELPARAM(point.x, point.y));
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
-		Invalidate(TRUE);
-		//m_explorer.Invalidate(TRUE);
-		break;
-	case HTBOTTOM:
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
-		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_BOTTOM, MAKELPARAM(point.x, point.y));
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
-		Invalidate(TRUE);
-		break;
-	case HTLEFT:
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
-		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_LEFT, MAKELPARAM(point.x, point.y));
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
-		Invalidate(TRUE);
-		break;
-	case HTRIGHT:
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
-		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_RIGHT, MAKELPARAM(point.x, point.y));
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
-		Invalidate(TRUE);
-		break;
-	case HTTOPLEFT:
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
-		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_TOPLEFT, MAKELPARAM(point.x, point.y));
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
-		Invalidate(TRUE);
-		break;
-	case HTTOPRIGHT:
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
-		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_TOPRIGHT, MAKELPARAM(point.x, point.y));
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
-		Invalidate(TRUE);
-		break;
-	case HTBOTTOMLEFT:
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
-		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_BOTTOMLEFT, MAKELPARAM(point.x, point.y));
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
-		Invalidate(TRUE);
-		break;
-	case HTBOTTOMRIGHT:
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
-		SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_BOTTOMRIGHT, MAKELPARAM(point.x, point.y));
-		SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
-		Invalidate(TRUE);
-		break;
+	CRect rc;
+	GetWindowRect(rc);
+	if (rc.left < 20)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*是否靠近屏幕上边缘*/
+BOOL CBubbleDlg::NearUpBorder()
+{
+	CRect rc;
+	GetWindowRect(rc);
+	if (rc.top < 20)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*是否靠近屏幕右边缘*/
+BOOL CBubbleDlg::NearRightBorder()
+{
+	CRect rc;
+	GetWindowRect(rc);
+	//要获取屏幕大小
+	int sysWidth = GetSystemMetrics(SM_CXSCREEN);
+	if (rc.right > sysWidth - 20)
+	{ 
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/*鼠标是否在窗体内*/
+BOOL CBubbleDlg::MouseInWnd()
+{
+	CRect rc;
+	GetWindowRect(rc);
+	POINT pt;
+	GetCursorPos(&pt);
+	if (PtInRect(&rc, pt))
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+//向上移动
+void CBubbleDlg::MoveUp()
+{
+	CRect rc;
+	GetWindowRect(rc);
+	//鼠标进入则下移，显示出来  
+	if (MouseInWnd())
+	{
+		int height = rc.Height();
+		if (rc.top >= 0)
+		{
+			rc.top = 0;
+		}
+		else
+		{
+				rc.top += 20;
+		}
+		rc.bottom = rc.top + height;
+		MoveWindow(rc);
+	}
+	//鼠标在别处，窗口就往上移出屏幕  
+	else
+	{
+		int height = rc.Height();
+		//窗口向上移动一像素，如果快隐藏(露20)就不移了  
+		if (rc.top <= 20 - height)
+		{
+			rc.top = 20 - height;
+			//ShowWindow(SW_HIDE);
+			//m_upDlg->m_Test360Dlg = this;
+			//m_upDlg->DoModal();
+		}
+		else
+		{
+			if(rc.top > -148)
+				rc.top -= 10;
+		}
+		if(rc.top > -158)
+			rc.bottom = rc.top + height;
+		MoveWindow(rc);
 	}
 }
 
-//BOOL CBubbleDlg::PreTranslateMessage(MSG* pMsg)
-//{
-//	if (pMsg->message == WM_KEYDOWN)
-//	{
-//		switch (pMsg->wParam)
-//		{
-//		case VK_DOWN:
-//			MessageBox(_T("CHN"), _T("提示"), MB_OK);
-//			break;
-//		case WM_LBUTTONDOWN:
-//			MessageBox(_T("CHN"), _T("提示"), MB_OK);
-//			break;
-//			OnLButtonDown();
-//		default:
-//			break;
-//		}
-//	}
-//	return TRUE;
-//}
+//向左移动
+void CBubbleDlg::MoveLeft()
+{
+	CRect rc;
+	GetWindowRect(rc);
+	//鼠标进入则下移，显示出来  
+	if (MouseInWnd())
+	{
+		int width = rc.Width();
+		if (rc.left >= 0)
+		{
+			rc.left = 0;
+		}
+		else
+		{
+			rc.left += 20;
+		}
+		rc.right = rc.left + width;
+		MoveWindow(rc);
+	}
+	//鼠标在别处，窗口就往上移出屏幕  
+	else
+	{
+		int width = rc.Width();
+		//窗口向上移动一像素，如果快隐藏(露20)就不移了  
+		if (rc.left <= 20 - width)
+		{
+			rc.left = 20 - width;
+		}
+		else
+		{
+			if (rc.left > -188)
+				rc.left -= 10;
+		}
+		if (rc.left > -198)
+			rc.right = rc.left + width;
+		MoveWindow(rc);
+	}
+}
+
+//向右移动
+void CBubbleDlg::MoveRight()
+{
+	CRect rc;
+	GetWindowRect(rc);
+	int sysWidth = GetSystemMetrics(SM_CXSCREEN);
+	//鼠标在窗口内则窗口左移，显示出来  
+	if (MouseInWnd())
+	{
+		int width = rc.Width();
+		if (rc.left <= sysWidth - width)
+		{
+			rc.left = sysWidth - width;
+		}
+		else
+		{
+			rc.left -= 20;
+		}
+		rc.right = rc.left + width;
+		MoveWindow(rc);
+	}
+	//鼠标没在窗口上，窗口就往右移出屏幕  
+	else
+	{
+		int width = rc.Width();
+		//窗口向右移动一像素，如果快隐藏了（还留20像素）就不移了  
+		if (rc.left >= sysWidth - 20)
+		{
+			rc.left = sysWidth - 20;
+		}
+		else
+		{
+			rc.left += 10;
+		}
+		rc.right = rc.left + width;
+		MoveWindow(rc);
+	}
+}
+/*时间相应函数*/
+void CBubbleDlg::OnTimer(UINT_PTR nIDEvent)
+{
+	if (nIDEvent == TIMER_MOVE)
+	{
+		//鼠标按着的，就怎么都不移动  
+		if (GetKeyState(VK_LBUTTON)<0)
+		{
+			return;
+		}
+		//靠近屏幕上边缘  
+		if (NearUpBorder())
+		{
+			//根据鼠标动作进行窗口的移动（鼠标进入区域就向下平移显示，鼠标离开就向上平移隐藏）  
+			MoveUp();
+			return;
+		}
+		//靠近屏幕左边缘  
+		if (NearLeftBorder())
+		{
+			//根据鼠标动作进行窗口的移动（鼠标进入区域就向右平移显示，鼠标离开就向左平移隐藏）  
+			MoveLeft();
+			return;
+		}
+		//靠近屏幕右边缘  
+		if (NearRightBorder())
+		{
+			//根据鼠标动作进行窗口的移动（鼠标进入区域就向左平移显示，鼠标离开就向右平移隐藏）  
+			MoveRight();
+			return;
+		}
+
+		if (MouseInWnd())
+		{
+			CRect rcBtn;
+			rcBtn.MoveToXY(m_nLeft--, m_nTop);
+			rcBtn.right = m_nLeft + m_rect.Width();
+			rcBtn.bottom = m_nTop + m_rect.Height();
+			m_BtnLar.MoveWindow(&rcBtn);
+		}
+		else
+		{
+			CRect rcBtn;
+			rcBtn.MoveToXY(m_nLeft++, m_nTop);
+			rcBtn.right = m_nLeft + m_rect.Width();
+			rcBtn.bottom = m_nTop + m_rect.Height();
+			m_BtnLar.MoveWindow(&rcBtn);
+		}
+	}
+
+	CDialog::OnTimer(nIDEvent);
+}
 
 BEGIN_MESSAGE_MAP(CBubbleDlg, CDialogEx)
+	ON_WM_CREATE()
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
+	ON_WM_TIMER()
 	ON_WM_QUERYDRAGICON()
-	ON_WM_NCHITTEST()
-	ON_WM_NCLBUTTONDOWN()
 	ON_WM_MOUSEMOVE()
 	ON_WM_RBUTTONDOWN()
 	ON_WM_LBUTTONDOWN()
@@ -230,6 +438,22 @@ LRESULT CBubbleDlg::OnShowTask(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+int CBubbleDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CDialogEx::OnCreate(lpCreateStruct) != 0)
+		return -1;
+	m_BtnLar.Create(_T("HAHA"), WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, IDD_BTN_CIRCLE);
+	m_BtnLar.ShowWindow(SW_SHOW);
+	m_BtnLar.SetFont(&(afxGlobalData.fontRegular));
+	m_BtnLar.SetWindowPos(&this->wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	//m_BtnLar.SetLayeredWindowAttributes()
+
+	//CRect rect;
+	//GetDesktopWindow()->GetWindowRect(rect);
+	//SetWindowPos(0, 0, 0, rect.right, rect.bottom, 0);
+	return 0;
+}
+
 void CBubbleDlg::DeleteTray()
 {
 	NOTIFYICONDATA nid;
@@ -278,12 +502,23 @@ BOOL CBubbleDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-	CRgn rgn;
-	rgn.CreateEllipticRgn(0, 0, 196, 196);
-	SetWindowRgn(rgn, TRUE);
+	//CRgn rgn;
+	//rgn.CreateEllipticRgn(0, 0, 196, 196);
+	//SetWindowRgn(rgn, TRUE);
+
+	//初始时居中  
+	CenterWindow();
+
+	//设置定时器，处理悬浮窗的显隐移动  
+	SetTimer(TIMER_MOVE, 10, NULL);
+
+	GetDlgItem(IDOK)->GetWindowRect(&m_rect);
+	ScreenToClient(m_rect);
+	m_nLeft = m_rect.left;
+	m_nTop = m_rect.top;
+	m_BtnLar.MoveWindow(&m_rect);
 
 	SetWindowPos(&this->wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	SetCapture();
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -328,7 +563,7 @@ void CBubbleDlg::OnPaint()
 	else
 	{
 		CDialogEx::OnPaint();
-		ShowPicture();
+		//ShowPicture();
 	}
 }
 

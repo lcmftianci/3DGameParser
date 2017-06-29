@@ -7,6 +7,7 @@
 #define IDD_ABOUTBOX					100
 #define IDS_ABOUTBOX					101
 #define IDD_BUBBLE_DIALOG				102
+#define IDD_BTN_CIRCLE					103
 
 // Next default values for new objects
 //
