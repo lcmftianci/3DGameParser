@@ -148,58 +148,58 @@ LRESULT WINAPI WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 //main windows entry function
-int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
-{
-	//MessageBox(NULL, ProgramTitle, ProgramCaption, MB_OKCANCEL);
-	//1.WNDCLASSEX
-	WNDCLASSEX wc;
-	wc.cbSize = sizeof(WNDCLASSEX);
-	wc.lpfnWndProc = (WNDPROC)WinProc;
-	wc.style = 0;
-	wc.cbClsExtra = 0;
-	wc.cbWndExtra = 0;
-	wc.hIcon = NULL;
-	wc.hIconSm = NULL;
-	wc.lpszMenuName = NULL;
-	wc.hInstance = hInstance;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-	//wc.hbrBackground = (HBITMAP)LoadImage(0, strFilePath.c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-	wc.lpszClassName = _T("MainWindowClass");
-	if (!RegisterClassEx(&wc))
-		return FALSE;
-
-	//2.MSG
-	MSG msg;
-
-	//3.Create Window
-	//HWND hwnd = CreateWindow(_T("MainWindowClass"), APPTITLE, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, SCREENW, SCREENH, (HWND)NULL, (HMENU)NULL, hInstance, (LPVOID)NULL);
-	HWND hwnd = CreateWindow(_T("MainWindowClass"), APPTITLE, WS_EX_TOPMOST|WS_POPUP, CW_USEDEFAULT, CW_USEDEFAULT, SCREENW, SCREENH, (HWND)NULL, (HMENU)NULL, hInstance, (LPVOID)NULL);
-
-	//4.was there an error creating the window
-	if (hwnd == 0)
-	{
-		return 0;
-	}
-	ShowWindow(hwnd, nShowCmd);
-	UpdateWindow(hwnd);
-	device = GetDC(hwnd);
-
-	//5.init Game
-	if (!Game_Init(hwnd))
-		return 0;
-
-	//6.main message loop
-	while (!gameover)
-	{
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-		Game_Run(hwnd);
-	}
-
-	Game_End(hwnd);
-	return msg.wParam;
-}
+//int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
+//{
+//	//MessageBox(NULL, ProgramTitle, ProgramCaption, MB_OKCANCEL);
+//	//1.WNDCLASSEX
+//	WNDCLASSEX wc;
+//	wc.cbSize = sizeof(WNDCLASSEX);
+//	wc.lpfnWndProc = (WNDPROC)WinProc;
+//	wc.style = 0;
+//	wc.cbClsExtra = 0;
+//	wc.cbWndExtra = 0;
+//	wc.hIcon = NULL;
+//	wc.hIconSm = NULL;
+//	wc.lpszMenuName = NULL;
+//	wc.hInstance = hInstance;
+//	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+//	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+//	//wc.hbrBackground = (HBITMAP)LoadImage(0, strFilePath.c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+//	wc.lpszClassName = _T("MainWindowClass");
+//	if (!RegisterClassEx(&wc))
+//		return FALSE;
+//
+//	//2.MSG
+//	MSG msg;
+//
+//	//3.Create Window
+//	//HWND hwnd = CreateWindow(_T("MainWindowClass"), APPTITLE, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, SCREENW, SCREENH, (HWND)NULL, (HMENU)NULL, hInstance, (LPVOID)NULL);
+//	HWND hwnd = CreateWindow(_T("MainWindowClass"), APPTITLE, WS_EX_TOPMOST|WS_POPUP, CW_USEDEFAULT, CW_USEDEFAULT, SCREENW, SCREENH, (HWND)NULL, (HMENU)NULL, hInstance, (LPVOID)NULL);
+//
+//	//4.was there an error creating the window
+//	if (hwnd == 0)
+//	{
+//		return 0;
+//	}
+//	ShowWindow(hwnd, nShowCmd);
+//	UpdateWindow(hwnd);
+//	device = GetDC(hwnd);
+//
+//	//5.init Game
+//	if (!Game_Init(hwnd))
+//		return 0;
+//
+//	//6.main message loop
+//	while (!gameover)
+//	{
+//		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+//		{
+//			TranslateMessage(&msg);
+//			DispatchMessage(&msg);
+//		}
+//		Game_Run(hwnd);
+//	}
+//
+//	Game_End(hwnd);
+//	return msg.wParam;
+//}

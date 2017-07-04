@@ -79,6 +79,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dlg", "dlg\dlg\dlg.vcxproj"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExportScene01", "..\..\Program Files\Autodesk\FBX\FBX SDK\2018.1.1\samples\ExportScene01\ExportScene01_net2015.vcxproj", "{B1B0F007-787E-48F6-BB1E-E925F5294E04}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLDemo", "GLDemo\GLDemo.vcxproj", "{C043BC57-A602-4A62-9AFE-403C6E6DB771}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug (DLL)|x64 = Debug (DLL)|x64
@@ -695,6 +697,22 @@ Global
 		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release|x64.Build.0 = Release|x64
 		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release|x86.ActiveCfg = Release|Win32
 		{B1B0F007-787E-48F6-BB1E-E925F5294E04}.Release|x86.Build.0 = Release|Win32
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Debug (DLL)|x64.ActiveCfg = Debug|x64
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Debug (DLL)|x64.Build.0 = Debug|x64
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Debug (DLL)|x86.ActiveCfg = Debug|Win32
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Debug (DLL)|x86.Build.0 = Debug|Win32
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Debug|x64.ActiveCfg = Debug|x64
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Debug|x64.Build.0 = Debug|x64
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Debug|x86.ActiveCfg = Debug|Win32
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Debug|x86.Build.0 = Debug|Win32
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Release (DLL)|x64.ActiveCfg = Release|x64
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Release (DLL)|x64.Build.0 = Release|x64
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Release (DLL)|x86.ActiveCfg = Release|Win32
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Release (DLL)|x86.Build.0 = Release|Win32
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Release|x64.ActiveCfg = Release|x64
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Release|x64.Build.0 = Release|x64
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Release|x86.ActiveCfg = Release|Win32
+		{C043BC57-A602-4A62-9AFE-403C6E6DB771}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

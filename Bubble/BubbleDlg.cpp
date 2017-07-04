@@ -148,7 +148,6 @@ BEGIN_MESSAGE_MAP(CBubbleDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_WM_NCHITTEST()
 	ON_WM_NCLBUTTONDOWN()
 	ON_WM_MOUSEMOVE()
 	ON_WM_RBUTTONDOWN()
@@ -278,12 +277,13 @@ BOOL CBubbleDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-	CRgn rgn;
-	rgn.CreateEllipticRgn(0, 0, 196, 196);
-	SetWindowRgn(rgn, TRUE);
+	//CRgn rgn;
+	//rgn.CreateEllipticRgn(0, 0, 196, 196);
+	//SetWindowRgn(rgn, TRUE);
 
+	//Òþ²Ø±ß¿ò
+	SetWindowLong(this->GetSafeHwnd(), GWL_STYLE, GetWindowLong(this->GetSafeHwnd(), GWL_STYLE) - WS_CAPTION);
 	SetWindowPos(&this->wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	SetCapture();
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -328,7 +328,7 @@ void CBubbleDlg::OnPaint()
 	else
 	{
 		CDialogEx::OnPaint();
-		ShowPicture();
+		//ShowPicture();
 	}
 }
 
