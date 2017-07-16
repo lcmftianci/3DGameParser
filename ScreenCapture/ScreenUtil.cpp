@@ -1,11 +1,60 @@
-#include "ScreenUtil.h"
-#include <windows.h>
+#define _CRT_SECURE_NO_WARNINGS
 #include "stdafx.h"
-#include <iostream>
+#include "ScreenUtil.h"
+
+
 
 void logs(std::string strMes)
 {
 	MessageBox(NULL, _T(strMes.c_str()), _T("提示"), MB_OK);
+}
+
+HBITMAP Copybitmap(LPRECT lprect)
+{
+	HDC hscrdc, hmemdc;// 屏幕和内存设备描述表 
+	HBITMAP hbitmap, holdbitmap;// 位图句柄 
+	int nx, ny, nx2, ny2;// 选定区域坐标 
+	int nwidth, nheight;// 位图宽度和高度 
+	int xscrn, yscrn;// 屏幕分辨率 
+					 // 确保选定区域不为空矩形 
+	if (IsRectEmpty(lprect))
+		return NULL;
+	//为屏幕创建设备描述表 
+	hscrdc = CreateDC("display", NULL, NULL, NULL);
+	//为屏幕设备描述表创建兼容的内存设备描述表 
+	hmemdc = CreateCompatibleDC(hscrdc);
+	// 获得选定区域坐标 
+	nx = lprect->left;
+	ny = lprect->top;
+	nx2 = lprect->right;
+	ny2 = lprect->bottom;
+	// 获得屏幕分辨率 
+	xscrn = GetDeviceCaps(hscrdc, HORZRES);
+	yscrn = GetDeviceCaps(hscrdc, VERTRES);
+	//确保选定区域是可见的 
+	if (nx < 0)
+		nx = 0;
+	if (ny < 0)
+		ny = 0;
+	if (nx2 > xscrn)
+		nx2 = xscrn;
+	if (ny2 > yscrn)
+		ny2 = yscrn;
+	nwidth = nx2 - nx;
+	nheight = ny2 - ny;
+	// 创建一个与屏幕设备描述表兼容的位图 
+	hbitmap = CreateCompatibleBitmap(hscrdc, nwidth, nheight);
+	// 把新位图选到内存设备描述表中 
+	holdbitmap = (HBITMAP)SelectObject(hmemdc, hbitmap);
+	// 把屏幕设备描述表拷贝到内存设备描述表中 
+	BitBlt(hmemdc, 0, 0, nwidth, nheight, hscrdc, nx, ny, SRCCOPY);
+	//得到屏幕位图的句柄 
+	hbitmap = (HBITMAP)SelectObject(hmemdc, holdbitmap);
+	//清除 
+	DeleteDC(hscrdc);
+	DeleteDC(hmemdc);
+	// 返回位图句柄 
+	return hbitmap;
 }
 
 
@@ -145,4 +194,95 @@ void logs(std::string strMes)
 	ScreenCapture(LPSTR(strTimeS.c_str()), 16, lprc);
 	delete lprc;
 	return TRUE;
+}
+
+static CString GetTempName(CString strPath)
+{
+	const int nMin = 0;
+	const int nMax = 999;
+	const CString strBase(_T("ScreenCap"));
+	static int nLastKnown = nMin;
+
+	// count up sequentially to make sure we take the next available
+	// slot
+	if (strPath.Right(1) != "\\")
+		strPath += '\\';
+
+	bool bFound = false;
+	CString strPathName;
+	while (!bFound) {
+		if (nLastKnown > nMax)
+			break;
+		strPathName = strPath + strBase;
+		strPathName.AppendFormat(_T("%03.3d.png"), nLastKnown++);
+		HANDLE hFile = ::CreateFile(strPathName, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+		if (hFile != INVALID_HANDLE_VALUE) {
+			::CloseHandle(hFile);
+			bFound = TRUE;
+		}
+	}
+	if (!bFound)
+		strPathName.Empty();
+	return(strPathName);
+}
+
+
+void CaptureScreen(CaptureData* lpData)
+{
+	ASSERT(lpData);
+	if (!lpData)
+		return;
+
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	BOOL bStat;
+	CImage image;
+	CWnd *pWnd;
+	CRect rect;
+	if (lpData->bCaptureFullScreen) {
+		pWnd = CWnd::GetDesktopWindow();
+	}
+	else {
+		pWnd = CWnd::GetActiveWindow();
+	}
+	ASSERT(pWnd);
+	if (pWnd == NULL)
+		return;
+
+	CWindowDC  winDC(pWnd);
+	pWnd->GetWindowRect(rect);
+	int nBPP = winDC.GetDeviceCaps(BITSPIXEL) * winDC.GetDeviceCaps(PLANES);
+	if (nBPP < 24)
+		nBPP = 24;
+	bStat = image.Create(rect.Width(), rect.Height(), nBPP);
+	ASSERT(bStat);
+	if (!bStat)
+		return;
+	CImageDC imageDC(image);
+	::BitBlt(imageDC, 0, 0, rect.Width(), rect.Height(), winDC, 0, 0, SRCCOPY);
+	CString strTempName = GetTempName(CString(lpData->szCapturePath));
+	HRESULT hr = image.Save(strTempName);
+	if (FAILED(hr)) {
+		TRACE("Couldn't Save File: %s, %x\n", (LPCTSTR)strTempName, hr);
+		return;
+	}
+	strncpy_s(lpData->szCaptureFilename, MAX_PATH, CT2A(::PathFindFileName(strTempName)), _TRUNCATE);
+}
+
+
+
+BOOL ConfigureCapture(HWND hWndParent, CaptureData* lpData) 
+{
+	ASSERT(lpData);
+	if (!lpData)
+		return(FALSE);
+
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	BOOL bStat = FALSE;
+	USES_CONVERSION;
+	bStat = TRUE;
+	lpData->bCaptureFullScreen = 1;
+	strncpy_s(lpData->szCapturePath, MAX_PATH, CT2A("E:\\vsproj\\3DGameParser\\ScreenCap"), _TRUNCATE);
+	*lpData->szCaptureFilename = '\0';
+	return(bStat);
 }

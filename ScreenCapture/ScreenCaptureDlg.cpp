@@ -6,7 +6,7 @@
 #include "ScreenCapture.h"
 #include "ScreenCaptureDlg.h"
 #include "afxdialogex.h"
-
+#include "resource.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -64,10 +64,23 @@ BEGIN_MESSAGE_MAP(CScreenCaptureDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_COMMAND(ID_CAP, &CScreenCaptureDlg::OnCap)
 END_MESSAGE_MAP()
 
 
 // CScreenCaptureDlg message handlers
+
+void CScreenCaptureDlg::SetImage(const CString &strPath)
+{
+	if (!m_image.IsNull())
+		m_image.Destroy();
+
+	HRESULT hr = m_image.Load(strPath);
+	if (FAILED(hr)) {
+		TRACE("Image Load Failed: %x\n", hr);
+	}
+	Invalidate();
+}
 
 BOOL CScreenCaptureDlg::OnInitDialog()
 {
@@ -99,6 +112,9 @@ BOOL CScreenCaptureDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
+	//添加Menu
+	m_Menu.LoadMenu(IDR_MENU1);  //  IDR_MENU1为你加入的菜单的ID，在Resource视图的Menu文件夹下可以找到
+	SetMenu(&m_Menu);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -141,6 +157,15 @@ void CScreenCaptureDlg::OnPaint()
 	}
 	else
 	{
+		CPaintDC dc(this); // device context for painting
+		// TODO: Add your message handler code here
+		if (m_image.IsNull())
+			return;
+		CRect rect;
+		GetClientRect(rect);
+		// In a real app you would probably want to maintain aspect ratio.
+		dc.SetStretchBltMode(HALFTONE);
+		m_image.StretchBlt(dc, rect);
 		CDialogEx::OnPaint();
 	}
 }
@@ -152,3 +177,27 @@ HCURSOR CScreenCaptureDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CScreenCaptureDlg::OnCap()
+{
+	// TODO: Add your command handler code here
+	ShowWindow(SW_HIDE);
+	Sleep(500);
+	ConfigureCapture(GetSafeHwnd(), &m_CapData);
+	CaptureScreen(&m_CapData);
+	ShowWindow(SW_SHOW);
+
+	if (m_CapData.szCaptureFilename[0] != '\0') {
+		// In a real application that had interest in the
+		// actual image and not just a screen capture
+		// we would want to pass the Bitmap/CImage back
+		// and forth directly, but for screen capture
+		// sample purposes, this works fine.
+		CString strPathName(m_CapData.szCapturePath);
+		if (strPathName.Right(1) != "\\")
+			strPathName += '\\';
+		strPathName += m_CapData.szCaptureFilename;
+		SetImage(strPathName);
+	}
+}

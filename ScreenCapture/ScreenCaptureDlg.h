@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "ScreenUtil.h"
 
 
 // CScreenCaptureDlg dialog
@@ -24,6 +25,14 @@ public:
 // Implementation
 protected:
 	HICON m_hIcon;
+	CMenu m_Menu;
+	CaptureData m_CapData;
+
+private:
+	CImage	m_image;
+public:
+	void SetImage(const CString &strPath);
+
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
@@ -31,4 +40,6 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnCap();
 };
