@@ -14,6 +14,8 @@ struct CaptureData
 	char	szCaptureFilename[MAX_PATH];
 };
 
+bool bFlag = false;
+
 /*
 	程序目的
 	截取屏幕上，然后显示在对话框上，可以前端显示这样就可以肆无忌惮的超代码了
