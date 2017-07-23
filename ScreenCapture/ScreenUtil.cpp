@@ -282,7 +282,7 @@ BOOL ConfigureCapture(HWND hWndParent, CaptureData* lpData)
 	USES_CONVERSION;
 	bStat = TRUE;
 	lpData->bCaptureFullScreen = 1;
-	strncpy_s(lpData->szCapturePath, MAX_PATH, CT2A("E:\\vsproj\\3DGameParser\\ScreenCap"), _TRUNCATE);
+	strncpy_s(lpData->szCapturePath, MAX_PATH, CT2A("E:\\vsproj\\3DGameParser\\ScreenCap\\Vedio\\"), _TRUNCATE);
 	*lpData->szCaptureFilename = '\0';
 	return(bStat);
 }
