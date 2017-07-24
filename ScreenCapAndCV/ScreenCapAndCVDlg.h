@@ -4,6 +4,8 @@
 
 #pragma once
 #include "ScreenUtil.h"
+#include <iostream>
+#include <vector>
 
 #define WM_MY_MESSAGE (WM_USER+1000)
 
@@ -52,6 +54,11 @@ public:
 public:
 	void CapVideoFunction();
 
+	//线程声明，全局或者静态成员才可以做线程函数
+	static DWORD WINAPI ThreadB1(LPVOID lpParam);			//屏幕截图线程
+
+	static DWORD WINAPI ThreadConvertVideo(LPVOID lpParam); //合成视频线程
+
 protected:
 	afx_msg LRESULT OnMyMessage(WPARAM wParam, LPARAM lParam);
 
@@ -62,4 +69,6 @@ protected:
 private:
 	bool m_bCapture; //截屏开始停止标识符
 	HACCEL hAccel;
+
+	std::vector<std::string> m_arrImgPath;//存储所有图片的文件路径用于合成视频用
 };

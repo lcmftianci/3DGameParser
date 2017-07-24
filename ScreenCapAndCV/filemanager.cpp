@@ -51,3 +51,16 @@ CString GetFilePath(string strPathBuf)
 	MultiByteToWideChar(0, 0, path_buffer, -1, lpstr1, 2048);
 	return lpstr1;
 }
+
+std::string GetFilePathStr(std::string strPath)
+{
+	char path_buffer[_MAX_PATH];
+	char drive[_MAX_DRIVE];
+	char dir[_MAX_DIR];
+	char fname[_MAX_FNAME];
+	char ext[_MAX_EXT];
+
+	_splitpath(strPath.c_str(), drive, dir, fname, ext); // C4996
+	_makepath(path_buffer, drive, dir, "", ""); // C4996
+	return path_buffer;
+}

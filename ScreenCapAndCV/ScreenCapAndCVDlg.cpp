@@ -5,6 +5,7 @@
 #include "ScreenCapAndCV.h"
 #include "ScreenCapAndCVDlg.h"
 #include "afxdialogex.h"
+#include "filemanager.h"
 
 #include <opencv2/opencv.hpp>
 using namespace cv;
@@ -18,7 +19,8 @@ using namespace std;
 #define ID_SHOW 0X6000
 
 //线程声明
-DWORD WINAPI ThreadB1(LPVOID lpParam);
+//UINT ThreadB1(LPVOID lpParam);
+
 
 // CAboutDlg dialog used for App About
 
@@ -63,6 +65,7 @@ CScreenCapAndCVDlg::CScreenCapAndCVDlg(CWnd* pParent /*=NULL*/)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_bCapture = false;
+	m_arrImgPath.clear();
 }
 
 void CScreenCapAndCVDlg::DoDataExchange(CDataExchange* pDX)
@@ -123,9 +126,7 @@ BOOL CScreenCapAndCVDlg::OnInitDialog()
 	hAccel = ::LoadAccelerators(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_ACCELERATOR1));
 	m_nHotKey = GlobalAddAtom(L"MyHotKey") - 0xC000;
 	::RegisterHotKey(this->GetSafeHwnd(), ID_SHOW, MOD_ALT, 'S');
-	//::RegisterHotKey(this->GetSafeHwnd(), ID_EXIT, MOD_CONTROL, 'E');
 	RegisterHotKey(NULL, m_nHotKey, MOD_ALT/* | MOD_NOREPEAT*/, VK_F8);
-
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -197,51 +198,64 @@ HCURSOR CScreenCapAndCVDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-DWORD WINAPI ThreadB1(LPVOID lpParam)
+DWORD WINAPI CScreenCapAndCVDlg::ThreadB1(LPVOID lpParam)
 {
-	//// 定义结构对象  
-	//PROCESS_INFORMATION pi;
-	//STARTUPINFO         si;
-	//BOOL                bRet;
-	//// 申请空间  
-	//ZeroMemory(&pi, sizeof(PROCESS_INFORMATION));
-	//ZeroMemory(&si, sizeof(STARTUPINFO));
-	//// 设置进程启动属性  
-	//si.cb = sizeof(STARTUPINFO);
-	//si.lpReserved = NULL;
-	//si.lpDesktop = NULL;
-	//si.lpTitle = NULL;
-	//si.dwFlags = STARTF_USESHOWWINDOW;
-	//si.wShowWindow = SW_SHOWNORMAL;
-	//si.cbReserved2 = NULL;
-	//si.lpReserved2 = NULL;
-	//bRet = CreateProcess(_T("C://Program Files//Internet Explorer//IEXPLORE.exe"),_T("http://www.coderfans.cn"),NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
-	//无用代码
-
 	//多线程录屏功能
-	//ShowWindow(SW_HIDE);
-	//ShowWindow(SW_HIDE);
-	int nParam1 = 0;
-	int nParam2 = 0;
-	MSG msg;
-	CaptureData capData;
-	while (!bFlag)
+	CScreenCapAndCVDlg* theAppThread = (CScreenCapAndCVDlg*)lpParam;
+	theAppThread->m_bCapture = true;
+	theAppThread->ShowWindow(SW_HIDE);
+	while (theAppThread->m_bCapture)
 	{
 		Sleep(50);//一秒钟20张图片
-		ConfigureCapture(theApp.GetSafeHwnd(), &capData);
-		CaptureScreen(&capData);
-		//再循环的里边接受消息
-		//PostMessage(WM_HOTKEY);
-		//::PostMessage(GetSafeHwnd(), WM_MY_MESSAGE, 0, 0);
-		//::PostMessage(GetSafeHwnd(), WM_MY_MESSAGE, (WPARAM)&nParam1, (LPARAM)&nParam2);
-		SendMessage(WM_MY_MESSAGE, (WPARAM)&nParam1, (LPARAM)&nParam2);
+		ConfigureCapture(theAppThread->GetSafeHwnd(), &theAppThread->m_CapData);
+		CaptureScreen(&theAppThread->m_CapData);
+
+		//保存文件
+		if (theAppThread->m_CapData.szCaptureFilename[0] != '\0')
+		{
+			CString strPathName(theAppThread->m_CapData.szCapturePath);
+			if (strPathName.Right(1) != "\\")
+				strPathName += '\\';
+			strPathName += theAppThread->m_CapData.szCaptureFilename;
+			theAppThread->SetImage(strPathName);
+			USES_CONVERSION;
+			std::string strFilePath = W2A(strPathName);
+			theAppThread->m_arrImgPath.push_back(strFilePath);
+		}
 	}
-	//ShowWindow(SW_SHOW);
-	bFlag = false;
+	theAppThread->ShowWindow(SW_SHOW);
 	return 0;
 }
 
 
+
+DWORD WINAPI CScreenCapAndCVDlg::ThreadConvertVideo(LPVOID lpParam)
+{
+	CScreenCapAndCVDlg* pApp = (CScreenCapAndCVDlg*)lpParam;
+	std::vector<std::string>::iterator iterImg = pApp->m_arrImgPath.begin();
+	if (iterImg == pApp->m_arrImgPath.end())
+		return NULL;
+	char strPath[240];
+	sprintf(strPath, (*iterImg).c_str());
+	IplImage* lpImg = cvLoadImage(strPath, TRUE);
+
+	Size mSize(lpImg->width, lpImg->height);
+	string str = GetFilePathStr(strPath);
+	str += "Video.avi";
+	VideoWriter writer(str, CV_FOURCC('M', 'J', 'P', 'G'), 20.0, mSize);
+	Mat frame;
+
+	for (; iterImg != pApp->m_arrImgPath.end(); iterImg++)
+	{
+		/*char strPath[240];
+		sprintf(strPath, "E:\\vsproj\\3DGameParser\\ScreenCap\\Vedio\\ScreenCap%03d.png", i);
+		sprintf(strPath, "E:\\vsproj\\3DGameParser\\ScreenCap\\Vedio\\ScreenCap%03d.png", i);*/
+		Mat frame = imread((*iterImg).c_str());
+		writer << frame;
+	}
+
+	writer.release();
+}
 
 void CScreenCapAndCVDlg::CapVideoFunction()
 {
@@ -284,11 +298,7 @@ void CScreenCapAndCVDlg::OnCappicactive()
 	//ShowWindow(SW_SHOW);
 
 	if (m_CapData.szCaptureFilename[0] != '\0') {
-		// In a real application that had interest in the
-		// actual image and not just a screen capture
-		// we would want to pass the Bitmap/CImage back
-		// and forth directly, but for screen capture
-		// sample purposes, this works fine.
+
 		CString strPathName(m_CapData.szCapturePath);
 		if (strPathName.Right(1) != "\\")
 			strPathName += '\\';
@@ -309,11 +319,6 @@ void CScreenCapAndCVDlg::OnCappicdesk()
 	ShowWindow(SW_SHOW);
 
 	if (m_CapData.szCaptureFilename[0] != '\0') {
-		// In a real application that had interest in the
-		// actual image and not just a screen capture
-		// we would want to pass the Bitmap/CImage back
-		// and forth directly, but for screen capture
-		// sample purposes, this works fine.
 		CString strPathName(m_CapData.szCapturePath);
 		if (strPathName.Right(1) != "\\")
 			strPathName += '\\';
@@ -326,18 +331,17 @@ void CScreenCapAndCVDlg::OnCappicdesk()
 //录制屏幕
 void CScreenCapAndCVDlg::OnCapvideo()
 {
-	// TODO: Add your command handler code here
-	DWORD   dw1, dw2;
-	HANDLE hHandle;
-	hHandle = CreateThread(NULL, 0, ThreadB1, NULL, 0, &dw1);
+	AfxBeginThread((AFX_THREADPROC)ThreadB1, this, THREAD_PRIORITY_NORMAL, 0, 0, NULL);
 }
 
 //停止录制屏幕，合成视频并播放
 void CScreenCapAndCVDlg::OnStopvideo()
 {
 	// TODO: Add your command handler code here
-	m_bCapture = true;
-	bFlag = false;
+	m_bCapture = false;
+
+	//合成视频子线程中做
+	AfxBeginThread((AFX_THREADPROC)ThreadConvertVideo, this, THREAD_PRIORITY_NORMAL, 0, 0, NULL);
 }
 
 
@@ -354,7 +358,7 @@ LRESULT CScreenCapAndCVDlg::OnHotKey(WPARAM wPARAM, LPARAM lPARAM)
 {
 	if (wPARAM == ID_SHOW)
 	{
-		m_bCapture = true;
+		m_bCapture = false;
 		return S_OK;
 	}
 	return S_FALSE;
@@ -364,7 +368,7 @@ LRESULT CScreenCapAndCVDlg::OnMyMessage(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == ID_SHOW)
 	{
-		m_bCapture = true;
+		m_bCapture = false;
 		return S_OK;
 	}
 	return S_FALSE;
@@ -399,5 +403,5 @@ BOOL CScreenCapAndCVDlg::PreTranslateMessage(MSG* pMsg)
 		}
 	}
 	if (::TranslateAccelerator(GetSafeHwnd(), hAccel, pMsg))
-		return   true;
+		return  true;
 }
