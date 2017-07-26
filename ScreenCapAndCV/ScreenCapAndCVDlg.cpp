@@ -177,13 +177,19 @@ void CScreenCapAndCVDlg::OnPaint()
 			return;
 		CRect rect;
 		GetClientRect(rect);
+		//常见图片缓存
 		MemBitmap.CreateCompatibleBitmap(GetDC(), rect.Width(), rect.Height());
+		//将缓存写到选到设备
 		CBitmap   *pOldBit = MemDC.SelectObject(&MemBitmap);
+
+		//刷新屏幕
 		MemDC.FillSolidRect(0, 0, rect.Width(), rect.Height(), RGB(255, 255, 255));
 
 		MemDC.SetStretchBltMode(HALFTONE);
+		//绘制到设备
 		m_image.StretchBlt(MemDC, rect);
 
+		//搬到屏幕
 		GetDC()->BitBlt(0, 0, rect.Width(), rect.Height(), &MemDC, 0, 0, SRCCOPY);
 		MemBitmap.DeleteObject();
 		MemDC.DeleteDC();
@@ -359,6 +365,8 @@ LRESULT CScreenCapAndCVDlg::OnHotKey(WPARAM wPARAM, LPARAM lPARAM)
 	if (wPARAM == ID_SHOW)
 	{
 		m_bCapture = false;
+		//合成视频子线程中做
+		AfxBeginThread((AFX_THREADPROC)ThreadConvertVideo, this, THREAD_PRIORITY_NORMAL, 0, 0, NULL);
 		return S_OK;
 	}
 	return S_FALSE;
