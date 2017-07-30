@@ -143,3 +143,27 @@ std::string DoubleToStr(double dVal, int nDec /*= -1*/, bool bDelZero /*= false*
 		strData = "0";
 	return strData;
 }
+
+//ansi转化成utf-8
+/*
+Convert(strA_in,strB_out,CP_UTF8,CP_ACP)//UTF8转换ANSI
+
+Convert(strA_out,strB_in,CP_ACP,CP_UTF8)//ANSI转换UTF8
+*/
+//void Convert(const char* strIn, char* strOut, int sourceCodepage, int targetCodepage)
+//{
+//	int len = lstrlen(strIn);
+//	int unicodeLen = MultiByteToWideChar(sourceCodepage, 0, strIn, -1, NULL, 0);
+//	wchar_t* pUnicode;
+//	pUnicode = new wchar_t[unicodeLen + 1];
+//	memset(pUnicode, 0, (unicodeLen + 1) * sizeof(wchar_t));
+//	MultiByteToWideChar(sourceCodepage, 0, strIn, -1, (LPWSTR)pUnicode, unicodeLen);
+//	BYTE * pTargetData = NULL;
+//	int targetLen = WideCharToMultiByte(targetCodepage, 0, (LPWSTR)pUnicode, -1, (char *)pTargetData, 0, NULL, NULL);
+//	pTargetData = new BYTE[targetLen + 1];
+//	memset(pTargetData, 0, targetLen + 1);
+//	WideCharToMultiByte(targetCodepage, 0, (LPWSTR)pUnicode, -1, (char *)pTargetData, targetLen, NULL, NULL);
+//	lstrcpy(strOut, (char*)pTargetData);
+//	delete pUnicode;
+//	delete pTargetData;
+//}

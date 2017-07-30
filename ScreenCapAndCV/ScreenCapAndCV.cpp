@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "ScreenCapAndCV.h"
 #include "ScreenCapAndCVDlg.h"
+#include "Splash.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -70,6 +71,17 @@ BOOL CScreenCapAndCVApp::InitInstance()
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
+	TCHAR szStr1[] = TEXT("F:\\androidsource\\VC程序\\CSplash_src\\splash.bmp");
+	CSplash splash1(szStr1, RGB(128, 128, 128));
+	splash1.ShowSplash();
+	//splash1.Create(IDB_SCREEN_BITMAP);
+	//splash1.CenterWindow();
+	//splash1.UpdateWindow();          //send WM_PAINT  
+	//wndSplash.DestroyWindow();//销毁初始画面窗口
+	// your start up code here
+	Sleep(3000); //  simulate using a 5 second delay
+	splash1.CloseSplash();//  Close the splash screen
+
 	CScreenCapAndCVDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
@@ -98,7 +110,6 @@ BOOL CScreenCapAndCVApp::InitInstance()
 #ifndef _AFXDLL
 	ControlBarCleanUp();
 #endif
-
 	// Since the dialog has been closed, return FALSE so that we exit the
 	//  application, rather than start the application's message pump.
 	return FALSE;

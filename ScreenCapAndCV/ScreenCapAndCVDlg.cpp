@@ -6,6 +6,7 @@
 #include "ScreenCapAndCVDlg.h"
 #include "afxdialogex.h"
 #include "filemanager.h"
+#include "Splash.h"
 
 #include <opencv2/opencv.hpp>
 using namespace cv;
@@ -18,6 +19,9 @@ using namespace std;
 
 #define ID_SHOW 0X6000
 
+#define  WM_MY_MSG (WM_USER + 1000)
+const UINT WM_CONTROLPRINT = RegisterWindowMessage(L"reg_data");
+//extern const UINT WM_CONTROLPRINT;
 //线程声明
 //UINT ThreadB1(LPVOID lpParam);
 
@@ -74,11 +78,15 @@ void CScreenCapAndCVDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CScreenCapAndCVDlg, CDialogEx)
+	ON_WM_CREATE()
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
+	ON_WM_COPYDATA()
 	ON_WM_QUERYDRAGICON()
 	ON_MESSAGE(WM_HOTKEY, OnHotKey)
 	ON_MESSAGE(WM_MY_MESSAGE, OnMyMessage)
+	ON_MESSAGE(WM_MY_MSG, OnMyCode)
+	ON_REGISTERED_MESSAGE(WM_CONTROLPRINT, OnMyCode)
 	ON_COMMAND(ID_CAPPICACTIVE, &CScreenCapAndCVDlg::OnCappicactive)
 	ON_COMMAND(ID_CAPPICDESK, &CScreenCapAndCVDlg::OnCappicdesk)
 	ON_COMMAND(ID_CAPVIDEO, &CScreenCapAndCVDlg::OnCapvideo)
@@ -92,7 +100,6 @@ END_MESSAGE_MAP()
 BOOL CScreenCapAndCVDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-
 	// Add "About..." menu item to system menu.
 
 	// IDM_ABOUTBOX must be in the system command range.
@@ -202,6 +209,11 @@ void CScreenCapAndCVDlg::OnPaint()
 HCURSOR CScreenCapAndCVDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
+}
+
+int CScreenCapAndCVDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	return 1;
 }
 
 DWORD WINAPI CScreenCapAndCVDlg::ThreadB1(LPVOID lpParam)
@@ -413,3 +425,193 @@ BOOL CScreenCapAndCVDlg::PreTranslateMessage(MSG* pMsg)
 	if (::TranslateAccelerator(GetSafeHwnd(), hAccel, pMsg))
 		return  true;
 }
+
+
+//接受系统消息
+BOOL CScreenCapAndCVDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+
+	if (pCopyDataStruct->lpData == NULL || pCopyDataStruct->cbData == 0)
+	{
+		return FALSE;
+	}
+
+	int nSize = 0;                           //字节20
+	int nLen = pCopyDataStruct->cbData + sizeof(WCHAR);    //字符HelloWorld10     加了个'\0'
+
+	WCHAR* szBuffer = new WCHAR[nLen >> 1];      //   右移一位   除以二    申请  同样大的内存
+
+	if (szBuffer == NULL)
+	{
+		return FALSE;
+	}
+	memset(szBuffer, 0, sizeof(WCHAR)*(nLen >> 1));
+
+	memcpy(szBuffer, pCopyDataStruct->lpData, pCopyDataStruct->cbData);
+
+	//m_Edit.SetWindowText(szBuffer);
+	CString str = szBuffer;
+
+	delete szBuffer;
+
+	szBuffer = NULL;
+
+	return CDialogEx::OnCopyData(pWnd, pCopyDataStruct);
+}
+
+
+//接受自定义消息
+LRESULT CScreenCapAndCVDlg::OnMyCode(WPARAM wParam, LPARAM lParam)
+{
+	MessageBox(_T("CHHN"), _T("CNN"), MB_OK);
+	return S_OK;
+}
+
+//管道通讯
+#define WRITE_PIPE   L"\\\\.\\pipe\\ReadPipe"
+#define READ_PIPE  L"\\\\.\\pipe\\WritePipe"
+HANDLE hThread[2] = { 0 };
+DWORD WINAPI  ReadPipeThread(LPARAM LPParam);
+DWORD WINAPI  WritePipeThread(LPARAM LPParam);
+//int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
+//{
+//	HANDLE hReadPipe = NULL;
+//	HANDLE hWritePipe = NULL;
+//	hThread[0] = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ReadPipeThread, NULL, 0, NULL);
+//	hThread[1] = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)WritePipeThread, NULL, 0, NULL);
+//	WaitForMultipleObjects(2, hThread, TRUE, INFINITE);
+//	CloseHandle(hReadPipe);
+//	CloseHandle(hWritePipe);
+//	CloseHandle(hThread[0]);
+//	CloseHandle(hThread[1]);
+//	cout << "Exit" << endl;
+//	return -1;
+//}
+
+
+DWORD WINAPI WritePipeThread(LPARAM LPParam)
+{
+	HANDLE hWritePipe = NULL;
+	char  szBuffer[MAX_PATH] = { 0 };
+	DWORD dwReturn = 0;
+	while (TRUE)
+	{
+		hWritePipe = CreateFile(WRITE_PIPE, GENERIC_READ | GENERIC_WRITE,
+			FILE_SHARE_READ | FILE_SHARE_WRITE,
+			NULL, OPEN_EXISTING, 0, NULL);
+		if (hWritePipe == INVALID_HANDLE_VALUE)
+		{
+			continue;
+		}
+		break;
+	}
+	while (TRUE)
+	{
+		cin >> szBuffer;
+		if (WriteFile(hWritePipe, szBuffer, MAX_PATH, &dwReturn, NULL))
+		{
+		}
+		else
+		{
+			if (GetLastError() == ERROR_NO_DATA)
+			{
+				cout << "Write Failed" << endl;
+				break;
+			}
+		}
+	}
+	return 0;
+}
+
+
+DWORD WINAPI  ReadPipeThread(LPARAM LPParam)
+{
+	HANDLE hReadPipe = NULL;
+	char  szBuffer[MAX_PATH] = { 0 };
+	DWORD dwReturn = 0;
+	while (TRUE)
+	{
+		hReadPipe = CreateFile(READ_PIPE, GENERIC_READ | GENERIC_WRITE,
+			FILE_SHARE_READ | FILE_SHARE_WRITE,
+			NULL, OPEN_EXISTING, 0, NULL);
+		if (hReadPipe == INVALID_HANDLE_VALUE)
+		{
+			continue;
+		}
+		break;
+	}
+	while (TRUE)
+	{
+		if (ReadFile(hReadPipe, szBuffer, MAX_PATH, &dwReturn, NULL))
+		{
+			szBuffer[dwReturn] = '\0';
+			//cout << szBuffer;
+		}
+		else
+		{
+			//cout << "Read Failed" << endl;
+			break;
+		}
+	}
+	return 0;
+}
+
+//共享内存
+//int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
+//{
+//	int nRetCode = 0;
+//	HANDLE hMapping = OpenFileMapping(FILE_MAP_ALL_ACCESS, NULL, L"ShareMemory");
+//	if (hMapping)
+//	{
+//		wprintf(L"%s\r\n", L"Success");
+//		LPVOID lpBase = MapViewOfFile(hMapping, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
+//		char szBuffer[20] = { 0 };
+//		strcpy(szBuffer, (char*)lpBase);
+//		UnmapViewOfFile(lpBase);
+//		CloseHandle(hMapping);
+//	}
+//	else
+//	{
+//		wprintf(L"%s", L"OpenMapping Error");
+//	}
+//	return nRetCode;
+//}
+
+
+//邮件槽
+/*#define  MAIL_SLOT_NAME  L"\\\\.\\mailslot\\Name"
+int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
+{
+	int nRetCode = 0;
+	HANDLE hWriteMailSlot = NULL;
+	while (TRUE)
+	{
+		hWriteMailSlot = CreateFile(MAIL_SLOT_NAME, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING,
+			FILE_ATTRIBUTE_NORMAL, NULL);
+		if (hWriteMailSlot == INVALID_HANDLE_VALUE)
+		{
+			continue;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	DWORD dwReturn = 0;
+	char szBuffer[1024] = { 0 };
+	while (TRUE)
+	{
+		cin >> szBuffer;
+		if (strcmp(szBuffer, "Exit") == 0)
+		{
+			break;
+		}
+		WriteFile(hWriteMailSlot, szBuffer, strlen(szBuffer), &dwReturn, NULL);
+	}
+
+	WriteFile(hWriteMailSlot, szBuffer, strlen(szBuffer), &dwReturn, NULL);
+	CloseHandle(hWriteMailSlot);
+	return nRetCode;
+}*/

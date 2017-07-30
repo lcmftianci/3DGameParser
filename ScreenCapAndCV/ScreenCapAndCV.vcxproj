@@ -189,6 +189,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioUtil.h" />
+    <ClInclude Include="BinaryUtil.h" />
+    <ClInclude Include="F:\androidsource\VC程序\CSplash_src\Splash.h" />
+    <ClInclude Include="SPlanshWnd.h" />
     <ClInclude Include="filemanager.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ScreenCapAndCV.h" />
@@ -199,10 +203,14 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioUtil.cpp" />
+    <ClCompile Include="BinaryUtil.cpp" />
+    <ClCompile Include="F:\androidsource\VC程序\CSplash_src\Splash.cpp" />
     <ClCompile Include="filemanager.cpp" />
     <ClCompile Include="ScreenCapAndCV.cpp" />
     <ClCompile Include="ScreenCapAndCVDlg.cpp" />
     <ClCompile Include="ScreenUtil.cpp" />
+    <ClCompile Include="SplanshWnd.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

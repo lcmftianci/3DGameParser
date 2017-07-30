@@ -39,6 +39,9 @@ protected:
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
+
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+
 	DECLARE_MESSAGE_MAP()
 
 private:
@@ -51,6 +54,8 @@ public:
 	afx_msg void OnStartvdeo();
 	afx_msg LRESULT OnHotKey(WPARAM wPARAM, LPARAM lPARAM);
 
+	afx_msg BOOL OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct);
+	afx_msg LRESULT OnMyCode(WPARAM wParam, LPARAM lParam);
 public:
 	void CapVideoFunction();
 

@@ -45,6 +45,18 @@
     <ClInclude Include="filemanager.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="AudioUtil.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SPlanshWnd.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\androidsource\VC程序\CSplash_src\Splash.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryUtil.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScreenCapAndCV.cpp">
@@ -63,6 +75,18 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="filemanager.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioUtil.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="SplanshWnd.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\androidsource\VC程序\CSplash_src\Splash.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="BinaryUtil.cpp">
       <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
