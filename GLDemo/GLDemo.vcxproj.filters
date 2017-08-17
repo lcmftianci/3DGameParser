@@ -13,10 +13,63 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="GLSrc">
+      <UniqueIdentifier>{21082609-0aa7-4bcf-83f4-f47680ee761e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DLDemo.cpp">
+    <ClCompile Include="GLBatch.cpp">
+      <Filter>GLSrc</Filter>
+    </ClCompile>
+    <ClCompile Include="glew.c">
+      <Filter>GLSrc</Filter>
+    </ClCompile>
+    <ClCompile Include="GLShaderManager.cpp">
+      <Filter>GLSrc</Filter>
+    </ClCompile>
+    <ClCompile Include="GLTools.cpp">
+      <Filter>GLSrc</Filter>
+    </ClCompile>
+    <ClCompile Include="GLTriangleBatch.cpp">
+      <Filter>GLSrc</Filter>
+    </ClCompile>
+    <ClCompile Include="math3d.cpp">
+      <Filter>GLSrc</Filter>
+    </ClCompile>
+    <ClCompile Include="sbm.cpp">
+      <Filter>GLSrc</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawCube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HelloWorld.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JpgToBmp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShowBmp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawSquare.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawTriangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawCubeNet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="3DColorCube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Blending.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sbm.h">
+      <Filter>GLSrc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

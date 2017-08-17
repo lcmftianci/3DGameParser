@@ -101,7 +101,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -146,7 +146,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DLDemo.cpp" />
+    <ClCompile Include="3DColorCube.cpp" />
+    <ClCompile Include="Blending.cpp" />
+    <ClCompile Include="DrawCubeNet.cpp" />
+    <ClCompile Include="DrawSquare.cpp" />
+    <ClCompile Include="DrawCube.cpp" />
+    <ClCompile Include="DrawTriangle.cpp" />
+    <ClCompile Include="GLBatch.cpp" />
+    <ClCompile Include="glew.c" />
+    <ClCompile Include="GLShaderManager.cpp" />
+    <ClCompile Include="GLTools.cpp" />
+    <ClCompile Include="GLTriangleBatch.cpp" />
+    <ClCompile Include="HelloWorld.cpp" />
+    <ClCompile Include="JpgToBmp.cpp" />
+    <ClCompile Include="math3d.cpp" />
+    <ClCompile Include="sbm.cpp" />
+    <ClCompile Include="ShowBmp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sbm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
