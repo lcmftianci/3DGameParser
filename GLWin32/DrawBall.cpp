@@ -1,19 +1,66 @@
 #pragma once
 #include "DrawBall.h"
 
+//#pragma comment(lib,"libSOIL.a")
+
+GLuint texture_earth;
+GLUquadricObj *quadPlanet;
+
+
+int g_mateial;			//绘制图片的材质
+//键盘事件
+void keyboard(unsigned char key, int x, int y) {
+	switch (key) {
+	case 'd':
+		//drawSphere(200, 20, WIRE);
+		g_mateial = 0;
+		break;
+	case 'l':
+		g_mateial = 1;
+		//drawSphere(200, 20, SOLID);
+		break;
+	case 'y':
+		exit(0);
+		break;
+	default:
+		break;
+	}
+}
 //主函数
 int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
+	g_mateial = 0;
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow("Ball");
+	LoadGLTextures("NinjaComp.BMP");
 	init();
 	glutReshapeFunc(reshape);
+	glutKeyboardFunc(keyboard);
 	glutDisplayFunc(display);
 	glutIdleFunc(display);
 	glutMainLoop();
 	return 0;
+}
+
+//加载普通图片
+void LoadGLTextures(CString path)
+{
+	glGenTextures(1, &g_textures);
+	CImage img;
+	img.Load(path); //  通过图片文件名字来加在
+	int width = img.GetWidth();
+	int height = img.GetHeight();
+	unsigned char *pData = NULL;
+	if (img.GetPitch() < 0) //GetBits的作用就是获得纹理的位信息缓冲区指针，如果位图是从下到上， 则指向缓冲区末端，否则指向缓冲区首端。而img.GetPitch 就是起这个判断作用，小于 0 指向末端
+		pixeldata = (unsigned char *)img.GetBits() + (img.GetPitch()*(img.GetHeight() - 1));
+	else
+		pixeldata = (unsigned char *)img.GetBits();
+	glBindTexture(GL_TEXTURE_2D, g_textures);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, pixeldata);
 }
 
 //初始化渲染机制
@@ -34,8 +81,16 @@ void init(void)
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_DEPTH_TEST);
+	//int earthHeight, earthWidth;
+	//unsigned char *earth = SOIL_load_image("../images/earth.jpg", &earthWidth, &earthHeight, 0, SOIL_LOAD_RGB);
+	//glGenTextures(1, &texture_earth);
+	//glBindTexture(GL_TEXTURE_2D, texture_earth);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, earthWidth, earthHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, earth);
+	//SOIL_free_image_data(earth);*/
+	quadPlanet = gluNewQuadric();
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 }
+
 
 //绘制
 void reshape(int w, int h)
@@ -59,6 +114,8 @@ void display(void)
 	glLoadIdentity();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glTranslated(250, 250, 0);
+	//glGenerateMipmap(GL_TEXTURE_2D);
+	//gluQuadricTexture(quadPlanet, GLU_TRUE);
 	//glRotated(30, 1, 0, 0);
 	//glRotated(60, 0, 1, 0);
 	//glRotated(90, 0, 0, 1);
@@ -75,8 +132,15 @@ void display(void)
 	glRotated(rotate, 0, 1, 0);
 	glRotated(rotate, 0, 0, 1);
 	glColor3f(1.0, 1.0, 1.0);
-	drawSphere(200, 20, WIRE);
+	if(g_mateial == 0)
+		drawSphere(200, 20, WIRE);
+	else
+		drawSphere(200, 20, SOLID);
+
+	//绘制图片内容
+	glDrawPixels(imagewidth, imageheight, GL_BGR_EXT, GL_UNSIGNED_BYTE, pixeldata);
 	glFlush();
+	glutSwapBuffers();
 }
 
 //获取点

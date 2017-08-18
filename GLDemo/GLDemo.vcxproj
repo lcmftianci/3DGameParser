@@ -149,6 +149,7 @@
     <ClCompile Include="3DColorCube.cpp" />
     <ClCompile Include="Blending.cpp" />
     <ClCompile Include="DrawCubeNet.cpp" />
+    <ClCompile Include="DrawEarth.cpp" />
     <ClCompile Include="DrawSquare.cpp" />
     <ClCompile Include="DrawCube.cpp" />
     <ClCompile Include="DrawTriangle.cpp" />
