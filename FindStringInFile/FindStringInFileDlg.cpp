@@ -160,27 +160,34 @@ HCURSOR CFindStringInFileDlg::OnQueryDragIcon()
 }
 
 
-//²éÕÒ×Ö·û´®
+//æŸ¥æ‰¾å­—ç¬¦ä¸²
 bool FindString(std::string strData, string strFilePath)
 {
-	//´ò¿ªÎÄ¼ş,²éÕÒ×Ö·û´®£¬¹Ø±ÕÎÄ¼ş·µ»ØÖµ
+	//æ‰“å¼€æ–‡ä»¶,æŸ¥æ‰¾å­—ç¬¦ä¸²ï¼Œå…³é—­æ–‡ä»¶è¿”å›å€¼
 	FILE* fp = fopen(strFilePath.c_str(), "rt");
 	if (fp == NULL)
+{
+fclose(fp);
 		return false;
+}
 
-	//²éÕÒ×Ö·û´®
+	//æŸ¥æ‰¾å­—ç¬¦ä¸²
 	char chValue[2048] = "";
 	while (!feof(fp))
 	{
 		fgets(chValue, 2047, fp);
 		if (strstr(chValue, strData.c_str()) != NULL)
+{
+fclose(fp);
 			return true;
+}
 	}
+fclose(fp);
 	return false;
 }
 
 
-//ÎÄ¼şÂ·¾¶Ğ´ÈëÎÄ¼ş²¢´ò¿ª
+//æ–‡ä»¶è·¯å¾„å†™å…¥æ–‡ä»¶å¹¶æ‰“å¼€
 int DisplayFilePath(std::vector<string> mVec)
 {
 	if (mVec.size() <= 0)
@@ -199,7 +206,7 @@ int DisplayFilePath(std::vector<string> mVec)
 	return (int)mVec.size();
 }
 
-//»ñÈ¡ÎÄ¼şÄ¿Â¼
+//è·å–æ–‡ä»¶ç›®å½•
 CString GetFilePath(string strPathBuf)
 {
 	char path_buffer[_MAX_PATH];
@@ -215,7 +222,7 @@ CString GetFilePath(string strPathBuf)
 	return lpstr1;
 }
 
-//»ñÈ¡¸ùÄ¿Â¼
+//è·å–æ ¹ç›®å½•
 CString GetRootPath(string strRootPath)
 {
 	char path_buffer[_MAX_PATH];
@@ -231,7 +238,7 @@ CString GetRootPath(string strRootPath)
 	return lpstr1;
 }
 
-//»ñÈ¡¸¸Ä¿Â¼
+//è·å–çˆ¶ç›®å½•
 CString GetParentPath(string strPathFather)
 {
 	char path_buffer[_MAX_PATH];
@@ -247,11 +254,11 @@ CString GetParentPath(string strPathFather)
 	return lpstr1;
 }
 
-//±éÀúÎÄ¼ş¼Ğ
+//éå†æ–‡ä»¶å¤¹
 void CFindStringInFileDlg::FindFile(string strFilePath)
 {
 	CFileFind finder;
-	CString str = (LPCTSTR)strFilePath.c_str();//ÂÒÂë
+	CString str = (LPCTSTR)strFilePath.c_str();//ä¹±ç 
 	char ch[2048] = "";
 	sprintf(ch, "%s", strFilePath.c_str());
 	int num = MultiByteToWideChar(0, 0, ch, -1, NULL, 0);
@@ -282,10 +289,10 @@ void CFindStringInFileDlg::FindFile(string strFilePath)
 	}
 }
 
-//½«²éÕÒµ½µÄÎÄ¼ş¸´ÖÆµ½ÏÖÓĞ×Ö·û´®ÖĞ
+//å°†æŸ¥æ‰¾åˆ°çš„æ–‡ä»¶å¤åˆ¶åˆ°ç°æœ‰å­—ç¬¦ä¸²ä¸­
 void CFindStringInFileDlg::InputArr(string strData)
 {
-	//²éÕÒ×Ö·û´®²¢½«´æÔÚÏàÓ¦×Ö·û´®µÄÎÄ¼şĞ´Èëµ½Ğ´Èëµ½Ö¸¶¨×Ö·ûÊı×é
+	//æŸ¥æ‰¾å­—ç¬¦ä¸²å¹¶å°†å­˜åœ¨ç›¸åº”å­—ç¬¦ä¸²çš„æ–‡ä»¶å†™å…¥åˆ°å†™å…¥åˆ°æŒ‡å®šå­—ç¬¦æ•°ç»„
 	std::vector<string>::iterator iter = m_arrFilePath.begin();
 	for (; iter != m_arrFilePath.end(); iter++)
 	{
@@ -294,11 +301,11 @@ void CFindStringInFileDlg::InputArr(string strData)
 	}
 }
 
-//»ñÈ¡ÎÄ¼ş¼Ğ
+//è·å–æ–‡ä»¶å¤¹
 void CFindStringInFileDlg::OnBnClickedBtnPath()
 {
 	// TODO: Add your control notification handler code here
-	//Ñ¡ÔñÎÄ¼ş¼ĞÎÄ¼ş
+	//é€‰æ‹©æ–‡ä»¶å¤¹æ–‡ä»¶
 #define MAX_CFileDialog_FILE_COUNT 99
 #define FILE_LIST_BUFFER_SIZE ((MAX_CFileDialog_FILE_COUNT * (MAX_PATH + 1)) + 1)
 
@@ -317,7 +324,7 @@ void CFindStringInFileDlg::OnBnClickedBtnPath()
 }
 
 
-/*²éÕÒ°´Å¥*/
+/*æŸ¥æ‰¾æŒ‰é’®*/
 void CFindStringInFileDlg::OnBnClickedFind()
 {
 	// TODO: Add your control notification handler code here
@@ -326,28 +333,28 @@ void CFindStringInFileDlg::OnBnClickedFind()
 	string strFileStr = W2A(m_strFind.GetBuffer());
 	if (strFileStr == "")
 	{
-		MessageBox(_T("×Ö·û´®Îª¿Õ,ÇëÖØĞÂÊäÈë£¡"), _T("ÌáÊ¾"), MB_OK);
+		MessageBox(_T("å­—ç¬¦ä¸²ä¸ºç©º,è¯·é‡æ–°è¾“å…¥ï¼"), _T("æç¤º"), MB_OK);
 		return;
 	}
 	string strFilePath = W2A(m_strFindPath.GetBuffer());
 	if (strFilePath == "")
 	{
-		MessageBox(_T("ÎÄ¼şÂ·¾¶Îª¿Õ,ÇëÖØĞÂÑ¡Ôñ£¡"), _T("ÌáÊ¾"), MB_OK);
+		MessageBox(_T("æ–‡ä»¶è·¯å¾„ä¸ºç©º,è¯·é‡æ–°é€‰æ‹©ï¼"), _T("æç¤º"), MB_OK);
 		return;
 	}
 
-	//¼ì²é²»³öÀ´¿Õ×Ö·û´®£¬¿ÉÄÜĞ´µÄÓĞÎÊÌâ
+	//æ£€æŸ¥ä¸å‡ºæ¥ç©ºå­—ç¬¦ä¸²ï¼Œå¯èƒ½å†™çš„æœ‰é—®é¢˜
 	//if (m_strFind == _T("")||m_strFind.IsEmpty())
 	//{
 	//	return;
 	//}
 
-	//±éÀúÎÄ¼ş¼Ğ
+	//éå†æ–‡ä»¶å¤¹
 	FindFile(strFilePath);
 
-	//²éÕÒ×Ö·û´®
+	//æŸ¥æ‰¾å­—ç¬¦ä¸²
 	InputArr(strFileStr);
 
-	//´òÓ¡×Ö·û´®
+	//æ‰“å°å­—ç¬¦ä¸²
 	DisplayFilePath(m_arrNewStrPath);
 }
